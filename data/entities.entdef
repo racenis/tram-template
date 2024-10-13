@@ -1,0 +1,78 @@
+# basic engine entities
+
+begin
+	name staticwobj
+	model none
+	field string model
+	field string lightmap
+end
+
+begin
+	name crate
+	model none
+	field string model
+	field string collision-model
+end
+
+begin
+	name light
+	model dev/light
+	field float color-r
+	field float color-g
+	field float color-b
+	field float distance
+	field float direction-x
+	field float direction-y
+	field float direction-z
+	field float exponent
+end
+
+begin
+	name marker
+	model dev/marker
+end
+
+begin
+	name sound
+	model dev/sound
+	field uint flags
+	field string sound
+	field float volume
+end
+
+begin
+	name decoration
+	model none
+	field uint flags
+	field string model
+	field string animation
+end
+
+begin
+	name trigger
+	model none
+	field uint flags
+	field uint collision-mask
+	field string model
+end
+
+# additional extension entities
+
+begin
+	name button
+	model none
+	
+	field uint button-flags
+	field string model
+	field string lightmap
+	field origin origin
+	field direction direction
+	field float speed
+	field float pause
+	field float distance
+	field string sound
+	field string parent
+	
+	gizmo cyan point origin
+	gizmo cyan normal direction 
+end
