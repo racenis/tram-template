@@ -38,20 +38,20 @@ local teapot_modifier = tram.math.vec3(0.0, 0.0, 0.0)
 
 -- This function will be called every tick.
 tram.event.AddListener(tram.event.TICK, function()
-	if tram.ui.PollKeyboardKey(tram.ui.KEY_LEFT) then
-		teapot_modifier = teapot_modifier + tram.math.vec3(0.0, 0.01, 0.0)
-	end
-	
-	if tram.ui.PollKeyboardKey(tram.ui.KEY_RIGHT) then
+	if tram.ui.PollKeyboardKey(tram.ui.KEY_LEFT) or tram.ui.PollKeyboardKey(tram.ui.KEY_A) then
 		teapot_modifier = teapot_modifier - tram.math.vec3(0.0, 0.01, 0.0)
 	end
 	
-	if tram.ui.PollKeyboardKey(tram.ui.KEY_UP) then
-		teapot_modifier = teapot_modifier + tram.math.vec3(0.01, 0.0, 0.0)
+	if tram.ui.PollKeyboardKey(tram.ui.KEY_RIGHT) or tram.ui.PollKeyboardKey(tram.ui.KEY_D) then
+		teapot_modifier = teapot_modifier + tram.math.vec3(0.0, 0.01, 0.0)
 	end
 	
-	if tram.ui.PollKeyboardKey(tram.ui.KEY_DOWN) then
+	if tram.ui.PollKeyboardKey(tram.ui.KEY_UP) or tram.ui.PollKeyboardKey(tram.ui.KEY_W) then
 		teapot_modifier = teapot_modifier - tram.math.vec3(0.01, 0.0, 0.0)
+	end
+	
+	if tram.ui.PollKeyboardKey(tram.ui.KEY_DOWN) or tram.ui.PollKeyboardKey(tram.ui.KEY_S) then
+		teapot_modifier = teapot_modifier + tram.math.vec3(0.01, 0.0, 0.0)
 	end
 	
 	teapot:SetRotation(tram.math.quat(teapot_modifier))
