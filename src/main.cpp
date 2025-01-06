@@ -12,6 +12,7 @@
 #include <framework/path.h>
 #include <framework/stats.h>
 #include <framework/script.h>
+#include <framework/loader.h>
 #include <framework/settings.h>
 #include <components/trigger.h>
 #include <audio/audio.h>
@@ -19,7 +20,7 @@
 #include <render/render.h>
 #include <render/material.h>
 #include <render/api.h>
-#include <render/aabb.h>
+#include <render/scene.h>
 #include <physics/physics.h>
 #include <physics/api.h>
 #include <entities/player.h>
@@ -37,7 +38,7 @@
 #include <extensions/camera/camera.h>
 #include <extensions/menu/menu.h>
 #include <extensions/scripting/lua.h>
-#include <extensions/kitchensink/design.h>
+#include <extensions/kitchensink/kitchensink.h>
 #include <extensions/kitchensink/entities.h>
 #include <extensions/kitchensink/soundtable.h>
 
@@ -45,13 +46,11 @@ using namespace tram;
 using namespace tram::UI;
 using namespace tram::Render;
 using namespace tram::Physics;
-using namespace tram::Ext::Design;
+using namespace tram::Ext::Kitchensink;
 
 void main_loop();
 
 int main(int argc, const char** argv) {
-	SetSystemLoggingSeverity(System::SYSTEM_PLATFORM, SEVERITY_WARNING);
-	
 	Settings::Parse(argv, argc);
 	
 	Light::Register();
@@ -60,7 +59,7 @@ int main(int argc, const char** argv) {
     Decoration::Register();
     Trigger::Register();
     StaticWorldObject::Register();
-    Ext::Design::Button::Register();
+    Ext::Kitchensink::Button::Register();
 	
 	Core::Init();
 	UI::Init();
@@ -76,7 +75,7 @@ int main(int argc, const char** argv) {
 
 	Ext::Menu::Init();
 	Ext::Camera::Init();
-	Ext::Design::Init();
+	Ext::Kitchensink::Init();
 
 	Ext::Scripting::Lua::Init();
 	Script::Init();
@@ -124,6 +123,9 @@ void main_loop() {
 	Loader::Update();
 	
 	AnimationComponent::Update();
+	ControllerComponent::Update();
+	
+	Ext::Camera::Update();
 	
 	Render::Render();
 	UI::EndFrame();
