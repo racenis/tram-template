@@ -66,7 +66,7 @@ FetchContent_MakeAvailable(bullet)
 # then we install glfw
 message(STATUS "Fetching GLFW...")
 
-set(BUILD_SHARED_LIBS OFF CACHE BOOL  "Build shared libraries" FORCE)
+#set(BUILD_SHARED_LIBS OFF CACHE BOOL  "Build shared libraries" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build the GLFW example programs" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "Build the GLFW documentation" FORCE)
@@ -116,24 +116,19 @@ file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 add_executable(template ${SOURCES})
 
-# TODO: use FetchContent to download the rest of the libraries
 target_link_libraries(template tramsdk
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/liblua.a
-	# 
 	# I feel like there is something wrong with this line here, but I have a
 	# strong dislike for CMake and I do not wish to engage in any further
 	# investigations at this time
 	${SOURCE_DIR}/src/liblua.a
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libBulletSoftBody.a
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libBulletDynamics.a
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libBulletCollision.a
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libLinearMath.a
+	
+	# this one is totally, 100% wrong
+	${CMAKE_SOURCE_DIR}/lib/libOpenAL32_RelWithDebugInfo.dll.a
+	
+	glfw
+
 	BulletSoftBody
 	BulletDynamics
 	BulletCollision
 	LinearMath
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libglfw3.a
-	glfw
-	)
-	#OpenAL32)
-	#${CMAKE_SOURCE_DIR}/../tram-sdk/libraries/binaries/win64/libOpenAL32.a)
+)
