@@ -19,18 +19,41 @@ FetchContent_MakeAvailable(tramsdk)
 
 # after that we'll get Lua
 message(STATUS "Fetching Lua...")
-include(ExternalProject)
-ExternalProject_Add(lua
-	URL https://www.lua.org/ftp/lua-5.4.6.tar.gz
-	CONFIGURE_COMMAND ""
-	BUILD_COMMAND make generic
-	BUILD_ALWAYS true
-	BUILD_IN_SOURCE true
-	INSTALL_COMMAND ""
+
+FetchContent_Declare(
+	lua
+	GIT_REPOSITORY https://github.com/lua/lua.git
+	GIT_TAG        6443185167c77adcc8552a3fee7edab7895db1a9
+	GIT_PROGRESS   TRUE
 )
-add_library(liblua STATIC IMPORTED)
-ExternalProject_Get_property(lua SOURCE_DIR)
-# maybe -> rename SOURCE_DIR to LUA_SOURCE_DIR?
+FetchContent_MakeAvailable(lua)
+
+# this next bit of lua stuff copy-pasted off of the internet
+# https://github.com/eliasdaler/sdl_breakout /edge/third_party/CMakeLists.txt
+set(LUA_SOURCES lapi.c lauxlib.c lbaselib.c lcode.c lcorolib.c
+		lctype.c ldblib.c ldebug.c ldo.c ldump.c lfunc.c lgc.c linit.c liolib.c
+		llex.c lmathlib.c lmem.c loadlib.c lobject.c lopcodes.c loslib.c
+		lparser.c lstate.c lstring.c lstrlib.c ltable.c ltablib.c ltm.c lundump.c
+		lutf8lib.c lvm.c lzio.c)
+
+list(TRANSFORM LUA_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/_deps/lua-src/")
+
+add_library(lua ${LUA_SOURCES})
+add_library(lua::lua ALIAS lua)
+
+if (${BUILD_LUA_AS_CPP})
+  target_compile_definitions(lua PUBLIC SOL_USE_CXX_LUA)
+  set_source_files_properties(${LUA_SOURCES} PROPERTIES
+    LANGUAGE CXX
+    LINKER_LANGUAGE CXX
+  )
+endif()
+
+target_include_directories(lua PUBLIC lua)
+if (UNIX)
+  target_compile_definitions(lua PUBLIC LUA_USE_LINUX)
+  target_link_libraries(lua PUBLIC dl m)
+endif()
 
 # next up we'll get bullet
 message(STATUS "Fetching Bullet...")
@@ -84,29 +107,30 @@ FetchContent_MakeAvailable(glfw)
 # and finally we get OpenAL
 message(STATUS "Fetching OpenAL...")
 
-set(ALSOFT_DLOPEN OFF CACHE BOOL   "Check for the dlopen API for loading optional libs"  ON)
-set(ALSOFT_WERROR OFF CACHE BOOL   "Treat compile warnings as errors"      OFF)
-set(ALSOFT_UTILS OFF CACHE BOOL  "Build utility programs"  ON)
-set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL   "Disable building the alsoft-config utility" OFF)
-set(ALSOFT_EXAMPLES OFF CACHE BOOL   "Build example programs"  ON)
-set(ALSOFT_INSTALL OFF CACHE BOOL   "Install main library" ON)
-set(ALSOFT_INSTALL_CONFIG OFF CACHE BOOL   "Install alsoft.conf sample configuration file" ON)
-set(ALSOFT_INSTALL_HRTF_DATA OFF CACHE BOOL   "Install HRTF data files" ON)
-set(ALSOFT_INSTALL_AMBDEC_PRESETS OFF CACHE BOOL   "Install AmbDec preset files" ON)
-set(ALSOFT_INSTALL_EXAMPLES OFF CACHE BOOL   "Install example programs (alplay, alstream, ...)" ON)
-set(ALSOFT_INSTALL_UTILS OFF CACHE BOOL   "Install utility programs (openal-info, alsoft-config, ...)" ON)
-set(ALSOFT_UPDATE_BUILD_VERSION OFF CACHE BOOL   "Update git build version info" ON)
+set(ALSOFT_BACKEND_PIPEWIRE OFF CACHE BOOL   "Check for the dlopen API for loading optional libs"  FORCE)
+set(ALSOFT_BACKEND_SNDIO OFF CACHE BOOL   "Check for the dlopen API for loading optional libs"  FORCE)
+set(ALSOFT_DLOPEN OFF CACHE BOOL   "Check for the dlopen API for loading optional libs"  FORCE)
+set(ALSOFT_WERROR OFF CACHE BOOL   "Treat compile warnings as errors"      FORCE)
+set(ALSOFT_UTILS OFF CACHE BOOL  "Build utility programs"  FORCE)
+set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL   "Disable building the alsoft-config utility" FORCE)
+set(ALSOFT_EXAMPLES OFF CACHE BOOL   "Build example programs"  FORCE)
+set(ALSOFT_INSTALL OFF CACHE BOOL   "Install main library" FORCE)
+set(ALSOFT_INSTALL_CONFIG OFF CACHE BOOL   "Install alsoft.conf sample configuration file" FORCE)
+set(ALSOFT_INSTALL_HRTF_DATA OFF CACHE BOOL   "Install HRTF data files" FORCE)
+set(ALSOFT_INSTALL_AMBDEC_PRESETS OFF CACHE BOOL   "Install AmbDec preset files" FORCE)
+set(ALSOFT_INSTALL_EXAMPLES OFF CACHE BOOL   "Install example programs (alplay, alstream, ...)" FORCE)
+set(ALSOFT_INSTALL_UTILS OFF CACHE BOOL   "Install utility programs (openal-info, alsoft-config, ...)" FORCE)
+set(ALSOFT_UPDATE_BUILD_VERSION OFF CACHE BOOL   "Update git build version info" FORCE)
 
 FetchContent_Declare(
-	OpenAL32
+	OpenAL
 	GIT_REPOSITORY https://github.com/kcat/openal-soft.git
 	GIT_TAG        d3875f333fb6abe2f39d82caca329414871ae53b
 	GIT_PROGRESS   TRUE
 )
-FetchContent_MakeAvailable(OpenAL32)
+FetchContent_MakeAvailable(OpenAL)
 
 message(STATUS "Finished fetching!")
-
 
 
 include_directories(${tramsdk_SOURCE_DIR}/src)
@@ -117,16 +141,9 @@ file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(template ${SOURCES})
 
 target_link_libraries(template tramsdk
-	# I feel like there is something wrong with this line here, but I have a
-	# strong dislike for CMake and I do not wish to engage in any further
-	# investigations at this time
-	${SOURCE_DIR}/src/liblua.a
-	
-	# this one is totally, 100% wrong
-	${CMAKE_SOURCE_DIR}/lib/libOpenAL32_RelWithDebugInfo.dll.a
-	
+	lua
+	OpenAL
 	glfw
-
 	BulletSoftBody
 	BulletDynamics
 	BulletCollision
