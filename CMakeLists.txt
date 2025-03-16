@@ -11,7 +11,7 @@ include(FetchContent)
 FetchContent_Declare(
 	tramsdk
 	GIT_REPOSITORY https://github.com/racenis/tram-sdk.git
-	GIT_TAG        2d876a37bf367d383443658aab60e492bf475a03
+	GIT_TAG        270759be8c2f9dbc3c169289e233601f22b42097
 	GIT_PROGRESS   TRUE
 )
 FetchContent_MakeAvailable(tramsdk)
