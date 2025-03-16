@@ -1,23 +1,23 @@
-MATv6
-# material name	  | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | source
-dev/nodraw          flat    nearest	metal       1.0 1.0 1.0     0.0     1.0     0.0     same
-dev/light           flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/sound           flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/trigger         flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/button16x16     flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/floor32x32      flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/floor128x128    flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/scaffold32x32   alpha   nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/scale128x128    flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/vent16x16       flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wall8x8         flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wall16x16       flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wall32x32       flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wall64x64       flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wall128x128     flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/wallstair32x32  flat    nearest	metal		1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/window128x128   flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
-dev/white           flat    nearest	metal       1.0 1.0 1.0		1.0     32.0    0.0     same
-teapot              flat    nearest	metal       1.0 1.0 1.0		1.0     16.0    0.0     none
-mybestwork          flat    nearest	metal       1.0 1.0 1.0		1.0     16.0    1.0     same
-# material name	  | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | source
+MATv7
+# material name   | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | refl. | source
+dev/nodraw          flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/light           flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/sound           flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/trigger         flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/button16x16     flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/floor32x32      flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/floor128x128    flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/scaffold32x32   alpha   nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/scale128x128    flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/vent16x16       flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wall8x8         flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wall16x16       flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wall32x32       flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wall64x64       flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wall128x128     flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/wallstair32x32  flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/window128x128   flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
+dev/white           flat    nearest metal       1.0 1.0 1.0     1.0     32.0    0.0     0.0     same
+teapot              flat    nearest metal       1.0 1.0 1.0     1.0     16.0    0.0     0.0     none
+mybestwork          flat    nearest metal       1.0 1.0 1.0     1.0     16.0    1.0     0.0     same
+# material name   | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | refl. | source
