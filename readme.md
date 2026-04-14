@@ -33,5 +33,5 @@ sudo apt-get install xorg-dev
 ```
 For Fedora based systems try running
 ```
-sudo dnf install mesa-libGL-devel libXcursor-devel libXi-devel libXinerama-devel libXrandr-devel
+sudo dnf install mesa-libGL-devel libX11-devel libXcursor-devel libXi-devel libXinerama-devel libXrandr-devel
 ```
