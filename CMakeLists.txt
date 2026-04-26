@@ -7,13 +7,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # this bit here will fetch the tramway sdk runtime from github
 message(STATUS "Fetching Tramway SDK...")
+set(TRAM_SDK_DIR "" CACHE PATH
+	"Path to a local tram-sdk repo copy (optional, leave empty to fetch from git)")
+set(TRAM_SDK_GIT_REPOSITORY "https://github.com/racenis/tram-sdk.git"
+	CACHE STRING "Main tram-sdk repo git URL")
+set(TRAM_SDK_GIT_TAG "270759be8c2f9dbc3c169289e233601f22b42097"
+	CACHE STRING "Git ref to check out when TRAM_SDK_DIR is empty")
+
 include(FetchContent)
-FetchContent_Declare(
-	tramsdk
-	GIT_REPOSITORY https://github.com/racenis/tram-sdk.git
-	GIT_TAG        270759be8c2f9dbc3c169289e233601f22b42097
-	GIT_PROGRESS   TRUE
-)
+if(TRAM_SDK_DIR)
+	message(STATUS "tram-sdk: using local copy at ${TRAM_SDK_DIR}")
+	FetchContent_Declare(tramsdk SOURCE_DIR "${TRAM_SDK_DIR}")
+else()
+	message(STATUS "tram-sdk: fetching ${TRAM_SDK_GIT_TAG} from ${TRAM_SDK_GIT_REPOSITORY}")
+	FetchContent_Declare(
+		tramsdk
+		GIT_REPOSITORY "${TRAM_SDK_GIT_REPOSITORY}"
+		GIT_TAG        "${TRAM_SDK_GIT_TAG}"
+		GIT_PROGRESS   TRUE
+	)
+endif()
 FetchContent_MakeAvailable(tramsdk)
 
 
@@ -36,7 +49,7 @@ set(LUA_SOURCES lapi.c lauxlib.c lbaselib.c lcode.c lcorolib.c
 		lparser.c lstate.c lstring.c lstrlib.c ltable.c ltablib.c ltm.c lundump.c
 		lutf8lib.c lvm.c lzio.c)
 
-list(TRANSFORM LUA_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/_deps/lua-src/")
+list(TRANSFORM LUA_SOURCES PREPEND "${lua_SOURCE_DIR}/")
 
 add_library(lua ${LUA_SOURCES})
 add_library(lua::lua ALIAS lua)
@@ -125,7 +138,7 @@ set(ALSOFT_UPDATE_BUILD_VERSION OFF CACHE BOOL   "Update git build version info"
 FetchContent_Declare(
 	OpenAL
 	GIT_REPOSITORY https://github.com/kcat/openal-soft.git
-	GIT_TAG        d3875f333fb6abe2f39d82caca329414871ae53b
+	GIT_TAG        1.24.3
 	GIT_PROGRESS   TRUE
 )
 FetchContent_MakeAvailable(OpenAL)
@@ -135,6 +148,8 @@ message(STATUS "Finished fetching!")
 
 include_directories(${tramsdk_SOURCE_DIR}/src)
 include_directories(${tramsdk_SOURCE_DIR}/libraries)
+
+find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
@@ -148,4 +163,5 @@ target_link_libraries(template tramsdk
 	BulletDynamics
 	BulletCollision
 	LinearMath
+	OpenGL::GL
 )
