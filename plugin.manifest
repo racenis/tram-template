@@ -1,0 +1,19 @@
+PLUGINSv1
+
+# All disabled plugins.
+disabled
+
+# This is how you define plugins.
+# The first plugin will be loaded from the plugins/giga-teapot.pkg file.
+# The second plugin will be loaded from the plugins/frog-scripts directory.
+plugin pkg giga-teapot
+plugin dir frog-scripts
+
+# As both of these plugins currently do not exist on disk in the sample project,
+# we will disable them in order to prevent the framework from attempting to load
+# them and bothering us with error messages.
+
+# All enabled plugins.
+enabled
+
+# No enabled plugins here.

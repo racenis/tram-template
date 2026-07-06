@@ -1,8 +1,6 @@
 // TRAMWAY DRIFT AND DUNGEON EXPLORATION SIMULATOR 2022
 // All rights reserved.
 
-#version 400 core
-
 layout (location = 0) in vec3 Position;		// vertex position
 layout (location = 3) in vec2 VOffset;		// screen space transform
 layout (location = 1) in vec2 VertUV;		// texture coordinates
@@ -33,9 +31,10 @@ out vec2 vert_uv;
 flat out uint vert_tex_index;
 
 void main() {
-	vec4 screen_pos = projection * view * model * vec4(Position, 1.0);
+	vec4 world_pos = view * model * vec4(Position, 1.0);
+	vec4 offset_pos = world_pos + vec4(VOffset, 0.0, 0.0);
 	
-    gl_Position = screen_pos + vec4(VOffset, 0.0, 0.0);
+    gl_Position = projection * offset_pos;
 
     vert_uv = VertUV;
 	vert_tex_index = TexIndex;

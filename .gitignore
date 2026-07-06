@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Tramway SDK user config files
+settings.cfg
+editor_settings.ini

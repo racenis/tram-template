@@ -18,6 +18,6 @@ dev/wall128x128     flat    nearest metal       1.0 1.0 1.0     0.0     1.0     
 dev/wallstair32x32  flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
 dev/window128x128   flat    nearest metal       1.0 1.0 1.0     0.0     1.0     0.0     0.0     same
 dev/white           flat    nearest metal       1.0 1.0 1.0     1.0     32.0    0.0     0.0     same
-teapot              flat    nearest metal       1.0 1.0 1.0     1.0     16.0    0.0     0.0     none
+teapot              flat    nearest metal       1.0 1.0 1.0     0.3     16.0    0.0     0.0     none
 mybestwork          flat    nearest metal       1.0 1.0 1.0     1.0     16.0    1.0     0.0     same
 # material name   | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | refl. | source

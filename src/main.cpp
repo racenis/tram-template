@@ -14,6 +14,7 @@
 #include <framework/script.h>
 #include <framework/loader.h>
 #include <framework/settings.h>
+#include <framework/serialization.h>
 #include <components/trigger.h>
 #include <audio/audio.h>
 #include <audio/sound.h>
@@ -51,6 +52,7 @@ using namespace tram::Ext::Kitchensink;
 void main_loop();
 
 int main(int argc, const char** argv) {
+	Settings::Load("settings.cfg");
 	Settings::Parse(argv, argc);
 	
 	Light::Register();
@@ -79,11 +81,12 @@ int main(int argc, const char** argv) {
 
 	Ext::Scripting::Lua::Init();
 	Script::Init();
-
-	Material::LoadMaterialInfo("material");
-	Language::Load("en");
 	
-	Script::LoadScript("init");
+	Serialization::LoadPluginManifest();
+	Serialization::LoadDataManifest();
+	
+	Serialization::LoadInitial();
+	Serialization::LoadDelayed();
 	
 	#ifdef __EMSCRIPTEN__
 		UI::SetWebMainLoop(main_loop);
@@ -97,6 +100,8 @@ int main(int argc, const char** argv) {
 		Async::Yeet();
 		Audio::Uninit();
 		UI::Uninit();
+		
+		Settings::Save("settings.cfg");
 	#endif
 }
 
@@ -114,9 +119,7 @@ void main_loop() {
 	GUI::End();
 	GUI::Update();
 	
-#ifdef __EMSCRIPTEN__
 	Async::LoadResourcesFromDisk();
-#endif
 	Async::LoadResourcesFromMemory();
 	Async::FinishResources();
 	

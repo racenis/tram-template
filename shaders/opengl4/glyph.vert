@@ -1,8 +1,6 @@
 // TRAMWAY DRIFT AND DUNGEON EXPLORATION SIMULATOR 2022
 // All rights reserved.
 
-#version 400 core
-
 layout (location = 0) in vec3 Position;		// vertex position
 layout (location = 1) in vec2 TexCoord;		// texture coordinate
 layout (location = 2) in vec3 VertColor;	// vertex color
@@ -12,7 +10,8 @@ out vec2 vert_uv;
 out vec3 vert_color;
 flat out uint vert_tex_index;
 
-uniform sampler2D sampler[16];
+uniform sampler2D sampler[15];
+uniform sampler2DArray samplerArray;
 
 layout (std140) uniform ModelMatrices {
     mat4 model;

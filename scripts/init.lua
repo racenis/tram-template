@@ -22,7 +22,7 @@ tram.render.SetViewPosition(tram.math.DIRECTION_FORWARD * -1.2)
 
 -- Setting up a light so that you can see something.
 scene_light = tram.components.Light()
-scene_light:SetColor(tram.render.COLOR_WHITE)
+scene_light:SetColor(tram.render.COLOR_WHITE * 4.0)
 scene_light:SetLocation(tram.math.vec3(5.0, 5.0, 5.0))
 scene_light:Init()
 
